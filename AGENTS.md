@@ -18,3 +18,26 @@ Install the official **[Superpowers](https://github.com/obra/superpowers)** plug
 ## Claude Code
 
 A minimal project skill lives under **[`.claude/skills/superpowers/SKILL.md`](.claude/skills/superpowers/SKILL.md)** pointing to the same upstream install flow.
+
+## FP Design System & Engines
+
+Both packages are installed and wired into this template.
+
+| Package | Version | What it provides |
+|---------|---------|-----------------|
+| `@fleetpanda/panda-design` | ^2.5.0 | shadcn spinoff — FP tokens, 34 UI primitives, `fp:` prefix isolation |
+| `@fleetpanda/engines` | ^0.5.0 | `EngineTable` (config-driven data table) + `EngineForm` |
+
+**CSS** is imported once in `src/app/globals.css` — no per-component imports needed.
+
+**Components:** import directly from the package:
+
+```tsx
+import { Button, Badge } from "@fleetpanda/panda-design";
+import { EngineTable, EngineTableProvider, createTable, col } from "@fleetpanda/engines/table";
+import { EngineForm } from "@fleetpanda/engines/form";
+```
+
+**Reference implementation:** `src/modules/users/engine-table.config.ts` + `src/modules/users/components/user-engine-table.tsx` shows an EngineTable wired to the users API.
+
+**Auth:** packages are on GitHub Packages (`npm.pkg.github.com`). The project `.npmrc` reads `${GITHUB_TOKEN}`. Set it with `export GITHUB_TOKEN=$(gh auth token)` before running `pnpm install`.

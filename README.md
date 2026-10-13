@@ -8,6 +8,8 @@ Production-grade Next.js starter (Fleet Panda) focused on explicit boundaries, s
 - TypeScript in strict mode
 - Tailwind CSS v4
 - shadcn/ui source components under `src/components/ui`
+- **`@fleetpanda/panda-design`** — FP design system (shadcn spinoff, `fp:` prefix isolation, dark-primary)
+- **`@fleetpanda/engines`** — config-driven EngineTable + EngineForm
 - Zustand for light client shell state
 - TanStack Query for server state
 - Zod for schemas and validation
@@ -15,6 +17,42 @@ Production-grade Next.js starter (Fleet Panda) focused on explicit boundaries, s
 - Vitest + Testing Library for unit tests
 - Playwright for end-to-end tests
 - ESLint (`eslint-config-next`: core-web-vitals + TypeScript) and Prettier in CI
+
+## FP Design System & Engines
+
+Both packages are published to GitHub Packages and configured in `.npmrc`. Set `GITHUB_TOKEN` before installing:
+
+```bash
+export GITHUB_TOKEN=$(gh auth token)
+pnpm install
+```
+
+### `@fleetpanda/panda-design`
+
+FP's shadcn/ui spinoff — token names match canonical shadcn; values are FleetPanda's palette. All Tailwind utilities are emitted under an `fp:` prefix so the package's styles are hard-isolated and never conflict with the host app's Tailwind.
+
+```tsx
+// styles — once in globals.css (already wired)
+import "@fleetpanda/panda-design/styles.css";
+
+// components — import anywhere
+import { Button, Badge, BannerCallout } from "@fleetpanda/panda-design";
+```
+
+Dark-primary is the brand default. Add `className="dark"` to `<html>` to activate it.
+
+### `@fleetpanda/engines`
+
+Config-driven data table and form engine built on `@fleetpanda/panda-design`.
+
+```tsx
+import { EngineTable, EngineTableProvider, createTable, col } from "@fleetpanda/engines/table";
+import { EngineForm } from "@fleetpanda/engines/form";
+```
+
+Reference implementation: [`src/modules/users/engine-table.config.ts`](src/modules/users/engine-table.config.ts) + [`src/modules/users/components/user-engine-table.tsx`](src/modules/users/components/user-engine-table.tsx).
+
+---
 
 ## Architecture
 
